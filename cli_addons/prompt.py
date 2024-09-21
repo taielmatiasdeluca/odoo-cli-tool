@@ -17,3 +17,12 @@ def confirmation(message):
 def printhtml(html):
     print_formatted_text(HTML(html))
     
+def prepareArray():
+    array = []
+    session = PromptSession()
+    while(True):
+        res = session.prompt(f'Ingrese un valor para agrarlo a {array} (exit para continuar):')
+        if res in ['exit','Exit']:
+            return array
+        array.append(res)
+    

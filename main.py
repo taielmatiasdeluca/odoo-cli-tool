@@ -40,6 +40,20 @@ def create_record(odoo,model_fields,model):
     new_id = operations.createRecord(odoo,model,data)
     print(f'Se creo un nuevo registro {model} con id: {new_id}')
         
+def prepareDomain(fields):
+    domain = []
+    while(True):
+        operation = menu.selectDomain(domain)
+        if operation == 'Terminar':
+            break
+        field = autocomplete.autocompletePrompt(fields,f'Ingrese el campo a agregar:', 'No se encontro ese modelo, vuelve a intentar')
+        if operation in ['in','not in']:
+            value = prompt.prepareArray()
+        else:
+            value = prompt.simplePrompt('Ingrese el valor: ')
+        domain.append((field,operation,value))
+    return domain
+    
 def delete_records(odoo,model_fields,model):
     operation = menu.deleteRecordMenu()
     if(operation == '1'):
@@ -59,10 +73,13 @@ def delete_records(odoo,model_fields,model):
                 prompt.printhtml("<ansigreen>Eliminado con exito</ansigreen>")
         return
     if(operation == '2'):
-        #Eliminar por dominio
+        domain = prepareDomain(model_fields)
+        if operations.deleteRecordByDomain(odoo,model,domain):
+            prompt.printhtml("<ansigreen>Eliminado con exito</ansigreen>")
         return
-    if(operation == '3'):
-        return
+    return
+
+
 
 def main():
     odoo = odoorpc.ODOO(URL, port=PORT)

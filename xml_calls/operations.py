@@ -30,4 +30,8 @@ def deleteRecordByIds(odoo,model_name,ids):
     records =  odoo.env[model_name].read(ids)
     return odoo.env[model_name].unlink(records)
 
+def deleteRecordByDomain(odoo,model_name,domain):
+    records =  odoo.env[model_name].search(domain)
+    return odoo.env[model_name].unlink(records)
+
     

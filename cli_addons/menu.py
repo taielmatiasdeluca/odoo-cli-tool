@@ -49,3 +49,23 @@ def deleteRecordMenu():
         except KeyboardInterrupt:
             print_formatted_text(HTML('<ansiyellow>\nInterrupción detectada. Saliendo...</ansiyellow>'))
             exit()
+
+
+def selectDomain(domain):
+    session = PromptSession()
+    operations = ['>','>=','=','!=','in','not in','Terminar']    
+    menu = f'<ansiblue>Agregar operaciones al dominio: {domain}</ansiblue>'
+    for i,operation in enumerate(operations):
+        menu += f'\n{i+1}. {operation}'
+    while True:
+        print_formatted_text(HTML(menu))
+        try:
+            input_text = session.prompt('> ')
+            if input_text in ['1','2','3','4','5','6','7']:
+                
+                return operations[int(input_text)-1]
+            else:
+                print_formatted_text(HTML('<ansired>Opción no válida, por favor intente de nuevo.</ansired>'))
+        except KeyboardInterrupt:
+            print_formatted_text(HTML('<ansiyellow>\nInterrupción detectada. Saliendo...</ansiyellow>'))
+            exit()
