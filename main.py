@@ -67,7 +67,7 @@ def prepareData(fields):
     
 def delete_records(odoo,model_fields,model):
     operation = menu.deleteRecordMenu()
-    if(operation == '1'):
+    if(operation == 'Eliminar por ids'):
         #Eliminar por ids
         ids = []
         while(True):
@@ -83,11 +83,12 @@ def delete_records(odoo,model_fields,model):
             if operations.deleteRecordByIds(odoo,model,ids):
                 prompt.printhtml("<ansigreen>Eliminado con exito</ansigreen>")
         return
-    if(operation == '2'):
+    if(operation == 'Eliminar por dominio'):
         domain = prepareDomain(model_fields)
         if operations.deleteRecordByDomain(odoo,model,domain):
             prompt.printhtml("<ansigreen>Eliminado con exito</ansigreen>")
         return
+    #Si la operacion no esta entre esas dos, volver al menu principal
     return
 
 def update_records(odoo,model_fields,model):

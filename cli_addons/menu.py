@@ -30,20 +30,15 @@ def mainMenu():
 
 def deleteRecordMenu():
     session = PromptSession()
-    
+    session = PromptSession()
+    opciones = ['Eliminar por ids','Eliminar por dominio','Volver']
+    menu = prepareMenu(opciones)
     while True:
-        print_formatted_text(HTML(
-        '''
-<ansiblue>Que tipo de operacion quiere ejecutar:</ansiblue>
-1. Eliminar por ids
-2. Eliminar por dominio
-3. Volver
-<ansigreen>Selecciona una opción:</ansigreen>'''
-    ))
+        print_formatted_text(HTML(menu))
         try:
             input_text = session.prompt('> ')
-            if input_text in ['1','2','3']:
-                return input_text
+            if input_text in (str(i) for i in range(1, len(opciones) + 1)):
+                return opciones[int(input_text) - 1]
             else:
                 print_formatted_text(HTML('<ansired>Opción no válida, por favor intente de nuevo.</ansired>'))
         except KeyboardInterrupt:
