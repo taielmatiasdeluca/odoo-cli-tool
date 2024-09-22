@@ -1,0 +1,4 @@
+OdooRPC==0.10.1
+prompt_toolkit==3.0.47
+python-dotenv==1.0.1
+wcwidth==0.2.13
