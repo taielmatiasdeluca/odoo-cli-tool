@@ -33,7 +33,6 @@ def create_record(odoo,model_fields,model):
             break
         model_fields_names.remove(field)
         fields.append(field)
-    
     data = {}
     for field in fields:
         data[field] =  prompt.simplePrompt(f'Ingrese el valor de la propiedad: {field}: ')
@@ -53,6 +52,18 @@ def prepareDomain(fields):
             value = prompt.simplePrompt('Ingrese el valor: ')
         domain.append((field,operation,value))
     return domain
+
+def prepareData(fields):
+    fields['exit'] = True
+    fields['Exit'] = True
+    data = {}
+    while(True):
+        field = autocomplete.autocompletePrompt(fields,f'Ingrese el campo a actualizar {data} (exit para continuar):', 'No se encontro ese modelo, vuelve a intentar')
+        if field in ['exit','Exit']:
+            break
+        value = prompt.simplePrompt('Ingrese el valor: ')
+        data[field] = value
+    return data    
     
 def delete_records(odoo,model_fields,model):
     operation = menu.deleteRecordMenu()
@@ -79,6 +90,12 @@ def delete_records(odoo,model_fields,model):
         return
     return
 
+def update_records(odoo,model_fields,model):
+    print('Debe crear un dominio de registros a actualizar')
+    domain = prepareDomain(model_fields)
+    data = prepareData(model_fields)
+    if operations.editRecordByDomain(odoo,model,domain,data):
+        prompt.printhtml("<ansigreen>Editado con exito</ansigreen>")
 
 
 def main():
@@ -91,12 +108,13 @@ def main():
         #se selecciona el modelo sobre el cual hacerlo
         model = autocomplete.autocompletePrompt([item['model'] for item in operations.getAllModels(odoo)],'Seleccione su modelo:', 'No se encontro ese modelo, vuelve a intentar')
         model_fields = operations.getAllFields(odoo,model)
-        if operation == '1':
+        if operation == 'Nuevo':
             create_record(odoo,model_fields,model)
-        if operation == '2':
-            pass
-        if operation == '3':
+        if operation == 'Editar':
+            update_records(odoo,model_fields,model)
+        if operation == 'Eliminar':
             delete_records(odoo,model_fields,model)
+        # TODO llamar metodos de los modelos
     
 
 if __name__ == '__main__':

@@ -34,4 +34,7 @@ def deleteRecordByDomain(odoo,model_name,domain):
     records =  odoo.env[model_name].search(domain)
     return odoo.env[model_name].unlink(records)
 
+def editRecordByDomain(odoo,model_name,domain,data):
+    records =  odoo.env[model_name].search(domain)
+    return odoo.env[model_name].write(records,data)
     
