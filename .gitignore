@@ -1,3 +1,5 @@
 **/__pycache__/
 .env
 odoo-cli-tool/
+cli_addons/__pycache__/
+xml_calls/__pycache__/
